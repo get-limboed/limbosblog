@@ -8,100 +8,205 @@
             background-color: #000000;
             background-image: url('IMG_0168.gif');
             margin: 0;
-            padding: 0;
-            font-family: "Courier New", monospace;
-            color: #00FF00;
-            line-height: 1.5;
+            padding: 10px;
+            font-family: "MS Sans Serif", Tahoma, sans-serif;
+            color: #FFFFFF;
+            line-height: 1.4;
         }
-        .main {
-            width: 700px;
+        .window {
+            width: 640px;
             margin: 20px auto;
-            background-color: #000033;
-            border: 2px solid #FF00FF;
-            padding: 20px;
+            background: #C0C0C0;
+            border: 2px solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            padding: 3px;
         }
-        .header {
-            text-align: center;
-            border-bottom: 1px dotted #FFCC00;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+        .title-bar {
+            background: linear-gradient(to right, #000080, #1084D0);
+            color: white;
+            padding: 3px 6px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
         }
-        a:link { color: #FFFF00; text-decoration: none; }
-        a:visited { color: #FFCC00; text-decoration: none; }
-        a:hover { color: #FF0000; text-decoration: underline; }
+        .content {
+            padding: 10px;
+            background: #C0C0C0;
+            color: #000000;
+        }
+        .button {
+            background: #C0C0C0;
+            border: 2px solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            padding: 2px 10px;
+            font-family: "MS Sans Serif", Tahoma, sans-serif;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .button:active {
+            border-color: #808080 #FFFFFF #FFFFFF #808080;
+        }
+        hr {
+            border: 1px solid;
+            border-color: #808080 #FFFFFF #FFFFFF #808080;
+            margin: 15px 0;
+        }
+        a {
+            color: #0000FF;
+            text-decoration: underline;
+        }
+        a:visited {
+            color: #800080;
+        }
         .post {
-            background-color: #000044;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-left: 3px solid #FF00FF;
-        }
-        .post-date {
-            color: #FF9900;
-            font-size: 0.9em;
+            background: #FFFFFF;
+            border: 1px solid #808080;
+            padding: 10px;
+            margin-bottom: 15px;
         }
         .counter {
             font-family: "Courier New", monospace;
-            color: #FFFFFF;
-            background-color: #000000;
+            background: #000000;
+            color: #00FF00;
             padding: 2px 5px;
-            border: 1px solid #00FF00;
+        }
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #C0C0C0;
+            border-top: 2px solid #FFFFFF;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+        }
+        .start-button {
+            background: #C0C0C0;
+            border: 2px solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            padding: 2px 6px;
+            font-weight: bold;
+        }
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
         }
     </style>
 </head>
 <body>
-    <div class="main">
-        <div class="header">
-            <h1>Limbo's Blog (´･ω･`)</h1>
-            <p>You're visitor number: <span class="counter" id="visitorCount">0000000</span></p>
+    <div class="window">
+        <div class="title-bar">
+            <span>Limbo's Blog (´･ω･`)</span>
+            <span>☐ ✕</span>
         </div>
-        
-        <!-- Blog Posts Section -->
-        <div class="post">
-            <h2>My First Blog Post</h2>
-            <p class="post-date">Posted on: May 12, 2024</p>
-            <p>Hello world! This is my first blog post. I'm just setting things up here.</p>
-            <p>More content coming soon... (◕‿◕✿)</p>
+        <div class="content">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2 style="margin: 0;">Welcome to my blog!</h2>
+                <div>Visitors: <span class="counter" id="visitorCount">0000000</span> <span class="blink">|</span></div>
+            </div>
+            <hr>
+            
+            <!-- Blog Posts -->
+            <div class="post">
+                <h3 style="margin-top: 0;">My First Post</h3>
+                <p><em>Posted on: May 12, 2024 at 11:59 PM</em></p>
+                <p>Hello world! This is my first blog post in this Windows 98 style blog with starry background.</p>
+                <p>The dark background makes the Windows 98 UI elements really pop!</p>
+                <p>ヽ(´▽`)/</p>
+                <button class="button">Read More</button>
+            </div>
+            
+            <div class="post">
+                <h3 style="margin-top: 0;">About This Design</h3>
+                <p><em>Posted on: May 10, 2024</em></p>
+                <p>This design combines:</p>
+                <ul>
+                    <li>Your original starry background</li>
+                    <li>Classic Windows 98 UI elements</li>
+                    <li>Functional visitor counter</li>
+                    <li>Retro aesthetic with modern functionality</li>
+                </ul>
+                <button class="button">Leave Comment</button>
+            </div>
+            
+            <hr>
+            <div style="text-align: center;">
+                <p>© 1998-<script>document.write(new Date().getFullYear())</script> Limbo</p>
+            </div>
         </div>
-        
-        <div class="post">
-            <h2>About This Blog</h2>
-            <p class="post-date">Posted on: May 10, 2024</p>
-            <p>Welcome to my 90s-style blog! I'll be posting about:</p>
-            <ul>
-                <li>Web development</li>
-                <li>Retro computing</li>
-                <li>Random thoughts</li>
-            </ul>
-            <p>Stay tuned! ヽ(´▽`)/</p>
-        </div>
-        
-        <!-- Archive Section -->
-        <h2>Blog Archive</h2>
-        <ul>
-            <li><a href="posts/post1.html">May 2024</a></li>
-            <!-- Add more months/years as needed -->
-        </ul>
-        
-        <div style="text-align: center; margin-top: 30px;">
-            <p>© 1997-<script>document.write(new Date().getFullYear())</script> Limbo</p>
+    </div>
+    
+    <!-- Windows 98 Taskbar -->
+    <div class="taskbar">
+        <button class="start-button">Start</button>
+        <div style="flex-grow: 1;"></div>
+        <div style="background: #C0C0C0; border: 2px solid; border-color: #808080 #FFFFFF #FFFFFF #808080; padding: 2px 6px;">
+            <script>
+                function updateClock() {
+                    const now = new Date();
+                    document.getElementById('clock').textContent = 
+                        now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                }
+                setInterval(updateClock, 1000);
+                updateClock();
+            </script>
+            <span id="clock"></span>
         </div>
     </div>
     
     <!-- Working Visitor Counter -->
     <script>
-        if (typeof(Storage) !== "undefined") {
-            let count = localStorage.getItem('visitorCount');
-            if (count === null) {
-                count = Math.floor(Math.random() * 5000) + 1000;
-            } else {
-                count = parseInt(count) + 1;
+        // Enhanced counter with multiple fallbacks
+        function getCounter() {
+            // Try localStorage first
+            if (typeof(Storage) !== "undefined") {
+                return localStorage.getItem('visitorCount');
             }
-            localStorage.setItem('visitorCount', count);
-            document.getElementById('visitorCount').textContent = 
-                String(count).padStart(7, '0');
-        } else {
-            document.getElementById('visitorCount').textContent = "0420690";
+            // Fallback to sessionStorage
+            if (typeof(sessionStorage) !== "undefined") {
+                return sessionStorage.getItem('visitorCount');
+            }
+            // Fallback to cookies
+            const cookies = document.cookie.split('; ');
+            for (const cookie of cookies) {
+                const [name, value] = cookie.split('=');
+                if (name === 'visitorCount') return value;
+            }
+            return null;
         }
+        
+        function setCounter(value) {
+            // Try localStorage first
+            if (typeof(Storage) !== "undefined") {
+                localStorage.setItem('visitorCount', value);
+                return;
+            }
+            // Fallback to sessionStorage
+            if (typeof(sessionStorage) !== "undefined") {
+                sessionStorage.setItem('visitorCount', value);
+                return;
+            }
+            // Fallback to cookies
+            document.cookie = `visitorCount=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+        }
+        
+        // Initialize counter
+        let count = getCounter();
+        if (count === null) {
+            count = Math.floor(Math.random() * 5000) + 1000;
+        } else {
+            count = parseInt(count) + 1;
+        }
+        setCounter(count);
+        
+        // Display with leading zeros
+        document.getElementById('visitorCount').textContent = 
+            String(count).padStart(7, '0');
     </script>
 </body>
 </html>
