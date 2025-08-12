@@ -150,26 +150,36 @@
             border-top: 1px solid #808080;
             margin: 3px 0;
         }
-        /* Pinball Window */
-        .pinball-window {
+        /* Minesweeper Window */
+        .minesweeper-window {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 600px;
+            width: 300px;
             background: #C0C0C0;
             border: 2px solid;
             border-color: #FFFFFF #808080 #808080 #FFFFFF;
             z-index: 1002;
             display: none;
         }
-        .pinball-content {
+        .minesweeper-content {
             padding: 10px;
-            text-align: center;
         }
-        #pinballCanvas {
+        #minesweeper {
+            margin: 0 auto;
+            display: block;
+        }
+        .minesweeper-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .minesweeper-status {
             background: #000;
-            border: 2px inset #C0C0C0;
+            color: #f00;
+            font-family: "Courier New", monospace;
+            padding: 2px 5px;
         }
     </style>
 </head>
@@ -219,27 +229,24 @@
     <!-- Start Menu (hidden by default) -->
     <div class="start-menu" id="startMenu">
         <div class="start-menu-header">Limbo's Blog</div>
-        <div class="start-menu-item" id="pinballMenuItem" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5xwZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">3D Space Cadet Pinball</div>
+        <div class="start-menu-item" id="minesweeperMenuItem" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5xwZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">Minesweeper</div>
         <div class="start-menu-item" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5x0ZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">Limbo's Blog !</div>
         <div class="start-menu-separator"></div>
         <div class="start-menu-item">Shut Down...</div>
     </div>
     
-    <!-- Pinball Window -->
-    <div class="pinball-window" id="pinballWindow">
+    <!-- Minesweeper Window -->
+    <div class="minesweeper-window" id="minesweeperWindow">
         <div class="title-bar">
-            <span>3D Space Cadet Pinball</span>
+            <span>Minesweeper</span>
             <span>☐ ✕</span>
         </div>
-        <div class="pinball-content">
-            <canvas id="pinballCanvas" width="560" height="400"></canvas>
-            <div style="margin-top: 10px;">
-                <button class="button" id="pinballStart">Start Game</button>
-                <button class="button" id="pinballClose">Close</button>
-            </div>
-            <div style="margin-top: 10px;">
-                <p>Controls: Left/Right Arrow Keys to move flippers</p>
-                <p>Space to launch ball</p>
+        <div class="minesweeper-content">
+            <div class="minesweeper-status" id="minesweeperStatus">Mines: 10</div>
+            <div id="minesweeper"></div>
+            <div class="minesweeper-controls">
+                <button class="button" id="minesweeperNewGame">New Game</button>
+                <button class="button" id="minesweeperClose">Close</button>
             </div>
         </div>
     </div>
@@ -332,124 +339,205 @@
             e.stopPropagation();
         });
         
-        // Pinball Game functionality
-        const pinballMenuItem = document.getElementById('pinballMenuItem');
-        const pinballWindow = document.getElementById('pinballWindow');
-        const pinballClose = document.getElementById('pinballClose');
-        const pinballStart = document.getElementById('pinballStart');
-        const pinballCanvas = document.getElementById('pinballCanvas');
-        const ctx = pinballCanvas.getContext('2d');
+        // Minesweeper functionality
+        const minesweeperMenuItem = document.getElementById('minesweeperMenuItem');
+        const minesweeperWindow = document.getElementById('minesweeperWindow');
+        const minesweeperClose = document.getElementById('minesweeperClose');
+        const minesweeperNewGame = document.getElementById('minesweeperNewGame');
+        const minesweeperStatus = document.getElementById('minesweeperStatus');
         
-        pinballMenuItem.addEventListener('click', function() {
+        minesweeperMenuItem.addEventListener('click', function() {
             startMenu.style.display = 'none';
-            pinballWindow.style.display = 'block';
+            minesweeperWindow.style.display = 'block';
+            initMinesweeper();
         });
         
-        pinballClose.addEventListener('click', function() {
-            pinballWindow.style.display = 'none';
+        minesweeperClose.addEventListener('click', function() {
+            minesweeperWindow.style.display = 'none';
         });
         
-        // Simple Pinball Game Implementation
-        pinballStart.addEventListener('click', function() {
-            // Ball properties
-            let ballX = pinballCanvas.width / 2;
-            let ballY = pinballCanvas.height - 30;
-            let ballRadius = 10;
-            let ballSpeedX = 2;
-            let ballSpeedY = -2;
+        // Minesweeper game implementation (based on ShizukuIchi's code)
+        function initMinesweeper() {
+            const container = document.getElementById('minesweeper');
+            container.innerHTML = '';
             
-            // Flipper properties
-            const flipperWidth = 60;
-            const flipperHeight = 10;
-            let leftFlipperX = (pinballCanvas.width / 2) - 70;
-            let rightFlipperX = (pinballCanvas.width / 2) + 10;
-            const flipperY = pinballCanvas.height - 20;
+            const ROW = 9;
+            const COL = 9;
+            const MINES = 10;
             
-            // Game state
-            let gameRunning = true;
-            let score = 0;
+            let board = Array(ROW).fill().map(() => Array(COL).fill(0));
+            let revealed = Array(ROW).fill().map(() => Array(COL).fill(false));
+            let flagged = Array(ROW).fill().map(() => Array(COL).fill(false));
+            let gameOver = false;
+            let minesLeft = MINES;
             
-            // Draw functions
-            function drawBall() {
-                ctx.beginPath();
-                ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
-                ctx.fillStyle = "#FF0000";
-                ctx.fill();
-                ctx.closePath();
+            minesweeperStatus.textContent = `Mines: ${minesLeft}`;
+            
+            // Place mines randomly
+            let minesPlaced = 0;
+            while (minesPlaced < MINES) {
+                const x = Math.floor(Math.random() * ROW);
+                const y = Math.floor(Math.random() * COL);
+                if (board[x][y] !== -1) {
+                    board[x][y] = -1;
+                    minesPlaced++;
+                    
+                    // Increment adjacent cells
+                    for (let dx = -1; dx <= 1; dx++) {
+                        for (let dy = -1; dy <= 1; dy++) {
+                            const nx = x + dx;
+                            const ny = y + dy;
+                            if (nx >= 0 && nx < ROW && ny >= 0 && ny < COL && board[nx][ny] !== -1) {
+                                board[nx][ny]++;
+                            }
+                        }
+                    }
+                }
             }
             
-            function drawFlippers() {
-                ctx.fillStyle = "#FFFFFF";
-                ctx.fillRect(leftFlipperX, flipperY, flipperWidth, flipperHeight);
-                ctx.fillRect(rightFlipperX, flipperY, flipperWidth, flipperHeight);
-            }
-            
-            function drawScore() {
-                ctx.font = "16px Arial";
-                ctx.fillStyle = "#FFFFFF";
-                ctx.fillText("Score: " + score, 8, 20);
-            }
-            
-            function draw() {
-                if (!gameRunning) return;
+            // Create game board
+            for (let x = 0; x < ROW; x++) {
+                const row = document.createElement('div');
+                row.style.display = 'flex';
                 
-                ctx.clearRect(0, 0, pinballCanvas.width, pinballCanvas.height);
-                drawBall();
-                drawFlippers();
-                drawScore();
-                
-                // Ball collision with walls
-                if(ballX + ballSpeedX > pinballCanvas.width-ballRadius || ballX + ballSpeedX < ballRadius) {
-                    ballSpeedX = -ballSpeedX;
+                for (let y = 0; y < COL; y++) {
+                    const cell = document.createElement('div');
+                    cell.style.width = '24px';
+                    cell.style.height = '24px';
+                    cell.style.border = '2px outset #C0C0C0';
+                    cell.style.backgroundColor = '#C0C0C0';
+                    cell.style.display = 'flex';
+                    cell.style.alignItems = 'center';
+                    cell.style.justifyContent = 'center';
+                    cell.style.fontFamily = 'Arial';
+                    cell.style.fontWeight = 'bold';
+                    cell.style.cursor = 'pointer';
+                    cell.style.userSelect = 'none';
+                    
+                    cell.dataset.x = x;
+                    cell.dataset.y = y;
+                    
+                    // Cell colors for numbers
+                    const colors = [
+                        '',         // 0 (empty)
+                        '#0000FF',  // 1
+                        '#008000',  // 2
+                        '#FF0000',  // 3
+                        '#000080',  // 4
+                        '#800000',  // 5
+                        '#008080',  // 6
+                        '#000000',  // 7
+                        '#808080'   // 8
+                    ];
+                    
+                    cell.addEventListener('click', function() {
+                        if (gameOver || revealed[x][y] || flagged[x][y]) return;
+                        
+                        revealCell(x, y);
+                        renderBoard();
+                    });
+                    
+                    cell.addEventListener('contextmenu', function(e) {
+                        e.preventDefault();
+                        if (gameOver || revealed[x][y]) return;
+                        
+                        flagged[x][y] = !flagged[x][y];
+                        minesLeft += flagged[x][y] ? -1 : 1;
+                        minesweeperStatus.textContent = `Mines: ${minesLeft}`;
+                        renderBoard();
+                    });
+                    
+                    row.appendChild(cell);
                 }
                 
-                if(ballY + ballSpeedY < ballRadius) {
-                    ballSpeedY = -ballSpeedY;
-                } else if(ballY + ballSpeedY > pinballCanvas.height-ballRadius) {
-                    // Check if ball hits flipper
-                    if(ballX > leftFlipperX && ballX < leftFlipperX + flipperWidth && 
-                       ballY + ballSpeedY > flipperY - ballRadius) {
-                        ballSpeedY = -ballSpeedY;
-                        score += 10;
-                    } else if(ballX > rightFlipperX && ballX < rightFlipperX + flipperWidth && 
-                              ballY + ballSpeedY > flipperY - ballRadius) {
-                        ballSpeedY = -ballSpeedY;
-                        score += 10;
-                    } else {
-                        // Game over
-                        gameRunning = false;
-                        ctx.font = "30px Arial";
-                        ctx.fillStyle = "#FFFFFF";
-                        ctx.fillText("Game Over!", pinballCanvas.width/2 - 80, pinballCanvas.height/2);
+                container.appendChild(row);
+            }
+            
+            function revealCell(x, y) {
+                if (x < 0 || x >= ROW || y < 0 || y >= COL || revealed[x][y] || flagged[x][y]) {
+                    return;
+                }
+                
+                revealed[x][y] = true;
+                
+                if (board[x][y] === -1) {
+                    // Hit a mine
+                    gameOver = true;
+                    revealAllMines();
+                    minesweeperStatus.textContent = 'Game Over!';
+                    return;
+                }
+                
+                if (board[x][y] === 0) {
+                    // Reveal adjacent cells if this is empty
+                    for (let dx = -1; dx <= 1; dx++) {
+                        for (let dy = -1; dy <= 1; dy++) {
+                            revealCell(x + dx, y + dy);
+                        }
                     }
                 }
                 
-                ballX += ballSpeedX;
-                ballY += ballSpeedY;
-                
-                requestAnimationFrame(draw);
+                // Check for win
+                if (checkWin()) {
+                    gameOver = true;
+                    minesweeperStatus.textContent = 'You Win!';
+                }
             }
             
-            // Keyboard controls
-            document.addEventListener('keydown', function(e) {
-                if(e.key === "ArrowLeft") {
-                    leftFlipperX = Math.max(0, leftFlipperX - 20);
-                } else if(e.key === "ArrowRight") {
-                    rightFlipperX = Math.min(pinballCanvas.width - flipperWidth, rightFlipperX + 20);
-                } else if(e.key === " " && !gameRunning) {
-                    // Restart game
-                    ballX = pinballCanvas.width / 2;
-                    ballY = pinballCanvas.height - 30;
-                    ballSpeedX = 2;
-                    ballSpeedY = -2;
-                    score = 0;
-                    gameRunning = true;
-                    draw();
+            function revealAllMines() {
+                for (let x = 0; x < ROW; x++) {
+                    for (let y = 0; y < COL; y++) {
+                        if (board[x][y] === -1) {
+                            revealed[x][y] = true;
+                        }
+                    }
                 }
+            }
+            
+            function checkWin() {
+                for (let x = 0; x < ROW; x++) {
+                    for (let y = 0; y < COL; y++) {
+                        if (board[x][y] !== -1 && !revealed[x][y]) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            
+            function renderBoard() {
+                const cells = container.querySelectorAll('div > div');
+                cells.forEach(cell => {
+                    const x = parseInt(cell.dataset.x);
+                    const y = parseInt(cell.dataset.y);
+                    
+                    if (revealed[x][y]) {
+                        cell.style.border = '1px solid #808080';
+                        cell.style.backgroundColor = '#C0C0C0';
+                        
+                        if (board[x][y] === -1) {
+                            cell.textContent = '💣';
+                            cell.style.backgroundColor = '#FF0000';
+                        } else if (board[x][y] > 0) {
+                            cell.textContent = board[x][y];
+                            cell.style.color = colors[board[x][y]];
+                        }
+                    } else if (flagged[x][y]) {
+                        cell.textContent = '🚩';
+                    } else {
+                        cell.textContent = '';
+                        cell.style.border = '2px outset #C0C0C0';
+                        cell.style.backgroundColor = '#C0C0C0';
+                    }
+                });
+            }
+            
+            minesweeperNewGame.addEventListener('click', function() {
+                initMinesweeper();
             });
             
-            draw();
-        });
+            renderBoard();
+        }
     </script>
 </body>
 </html>
