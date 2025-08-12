@@ -96,6 +96,20 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
+        .taskbar-icon {
+            height: 24px;
+            margin: 0 2px;
+            border: 1px solid transparent;
+            padding: 1px;
+        }
+        .taskbar-icon:hover {
+            background: #A0A0A0;
+            border-color: #808080 #FFFFFF #FFFFFF #808080;
+        }
+        .taskbar-icon:active {
+            background: #808080;
+            border-color: #808080 #808080 #808080 #808080;
+        }
     </style>
 </head>
 <body>
@@ -144,6 +158,8 @@
     <!-- Windows 98 Taskbar -->
     <div class="taskbar">
         <button class="start-button">Start</button>
+        <!-- Added script icon to taskbar -->
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5xwZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==" class="taskbar-icon" alt="Script Icon" title="JavaScript">
         <div style="flex-grow: 1;"></div>
         <div style="background: #C0C0C0; border: 2px solid; border-color: #808080 #FFFFFF #FFFFFF #808080; padding: 2px 6px;">
             <script>
