@@ -129,28 +129,16 @@
             z-index: 1001;
         }
         .start-menu-header {
-            background: #000080;
+            background: linear-gradient(to right, #000080, #1084D0);
             color: white;
-            padding: 3px 6px 3px 18px;
+            padding: 3px 6px;
             font-weight: bold;
-            position: relative;
-            overflow: hidden;
-        }
-        .start-menu-header:before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 16px;
-            height: 100%;
-            background: linear-gradient(to bottom right, #000080 50%, transparent 50%);
         }
         .start-menu-item {
             padding: 3px 20px 3px 30px;
             background-position: 5px center;
             background-repeat: no-repeat;
             cursor: pointer;
-            position: relative;
         }
         .start-menu-item:hover {
             background-color: #000080;
@@ -161,6 +149,27 @@
             background: #FFFFFF;
             border-top: 1px solid #808080;
             margin: 3px 0;
+        }
+        /* Pinball Window */
+        .pinball-window {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            background: #C0C0C0;
+            border: 2px solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            z-index: 1002;
+            display: none;
+        }
+        .pinball-content {
+            padding: 10px;
+            text-align: center;
+        }
+        #pinballCanvas {
+            background: #000;
+            border: 2px inset #C0C0C0;
         }
     </style>
 </head>
@@ -210,10 +219,29 @@
     <!-- Start Menu (hidden by default) -->
     <div class="start-menu" id="startMenu">
         <div class="start-menu-header">Limbo's Blog</div>
-        <div class="start-menu-item" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5xwZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">3D Space Cadet Pinball</div>
+        <div class="start-menu-item" id="pinballMenuItem" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5xwZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">3D Space Cadet Pinball</div>
         <div class="start-menu-item" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5x0ZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">Limbo's Blog !</div>
         <div class="start-menu-separator"></div>
         <div class="start-menu-item">Shut Down...</div>
+    </div>
+    
+    <!-- Pinball Window -->
+    <div class="pinball-window" id="pinballWindow">
+        <div class="title-bar">
+            <span>3D Space Cadet Pinball</span>
+            <span>☐ ✕</span>
+        </div>
+        <div class="pinball-content">
+            <canvas id="pinballCanvas" width="560" height="400"></canvas>
+            <div style="margin-top: 10px;">
+                <button class="button" id="pinballStart">Start Game</button>
+                <button class="button" id="pinballClose">Close</button>
+            </div>
+            <div style="margin-top: 10px;">
+                <p>Controls: Left/Right Arrow Keys to move flippers</p>
+                <p>Space to launch ball</p>
+            </div>
+        </div>
     </div>
     
     <!-- Windows 98 Taskbar -->
@@ -302,6 +330,125 @@
         // Prevent menu from closing when clicking inside it
         startMenu.addEventListener('click', function(e) {
             e.stopPropagation();
+        });
+        
+        // Pinball Game functionality
+        const pinballMenuItem = document.getElementById('pinballMenuItem');
+        const pinballWindow = document.getElementById('pinballWindow');
+        const pinballClose = document.getElementById('pinballClose');
+        const pinballStart = document.getElementById('pinballStart');
+        const pinballCanvas = document.getElementById('pinballCanvas');
+        const ctx = pinballCanvas.getContext('2d');
+        
+        pinballMenuItem.addEventListener('click', function() {
+            startMenu.style.display = 'none';
+            pinballWindow.style.display = 'block';
+        });
+        
+        pinballClose.addEventListener('click', function() {
+            pinballWindow.style.display = 'none';
+        });
+        
+        // Simple Pinball Game Implementation
+        pinballStart.addEventListener('click', function() {
+            // Ball properties
+            let ballX = pinballCanvas.width / 2;
+            let ballY = pinballCanvas.height - 30;
+            let ballRadius = 10;
+            let ballSpeedX = 2;
+            let ballSpeedY = -2;
+            
+            // Flipper properties
+            const flipperWidth = 60;
+            const flipperHeight = 10;
+            let leftFlipperX = (pinballCanvas.width / 2) - 70;
+            let rightFlipperX = (pinballCanvas.width / 2) + 10;
+            const flipperY = pinballCanvas.height - 20;
+            
+            // Game state
+            let gameRunning = true;
+            let score = 0;
+            
+            // Draw functions
+            function drawBall() {
+                ctx.beginPath();
+                ctx.arc(ballX, ballY, ballRadius, 0, Math.PI*2);
+                ctx.fillStyle = "#FF0000";
+                ctx.fill();
+                ctx.closePath();
+            }
+            
+            function drawFlippers() {
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillRect(leftFlipperX, flipperY, flipperWidth, flipperHeight);
+                ctx.fillRect(rightFlipperX, flipperY, flipperWidth, flipperHeight);
+            }
+            
+            function drawScore() {
+                ctx.font = "16px Arial";
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillText("Score: " + score, 8, 20);
+            }
+            
+            function draw() {
+                if (!gameRunning) return;
+                
+                ctx.clearRect(0, 0, pinballCanvas.width, pinballCanvas.height);
+                drawBall();
+                drawFlippers();
+                drawScore();
+                
+                // Ball collision with walls
+                if(ballX + ballSpeedX > pinballCanvas.width-ballRadius || ballX + ballSpeedX < ballRadius) {
+                    ballSpeedX = -ballSpeedX;
+                }
+                
+                if(ballY + ballSpeedY < ballRadius) {
+                    ballSpeedY = -ballSpeedY;
+                } else if(ballY + ballSpeedY > pinballCanvas.height-ballRadius) {
+                    // Check if ball hits flipper
+                    if(ballX > leftFlipperX && ballX < leftFlipperX + flipperWidth && 
+                       ballY + ballSpeedY > flipperY - ballRadius) {
+                        ballSpeedY = -ballSpeedY;
+                        score += 10;
+                    } else if(ballX > rightFlipperX && ballX < rightFlipperX + flipperWidth && 
+                              ballY + ballSpeedY > flipperY - ballRadius) {
+                        ballSpeedY = -ballSpeedY;
+                        score += 10;
+                    } else {
+                        // Game over
+                        gameRunning = false;
+                        ctx.font = "30px Arial";
+                        ctx.fillStyle = "#FFFFFF";
+                        ctx.fillText("Game Over!", pinballCanvas.width/2 - 80, pinballCanvas.height/2);
+                    }
+                }
+                
+                ballX += ballSpeedX;
+                ballY += ballSpeedY;
+                
+                requestAnimationFrame(draw);
+            }
+            
+            // Keyboard controls
+            document.addEventListener('keydown', function(e) {
+                if(e.key === "ArrowLeft") {
+                    leftFlipperX = Math.max(0, leftFlipperX - 20);
+                } else if(e.key === "ArrowRight") {
+                    rightFlipperX = Math.min(pinballCanvas.width - flipperWidth, rightFlipperX + 20);
+                } else if(e.key === " " && !gameRunning) {
+                    // Restart game
+                    ballX = pinballCanvas.width / 2;
+                    ballY = pinballCanvas.height - 30;
+                    ballSpeedX = 2;
+                    ballSpeedY = -2;
+                    score = 0;
+                    gameRunning = true;
+                    draw();
+                }
+            });
+            
+            draw();
         });
     </script>
 </body>
