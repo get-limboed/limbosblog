@@ -196,6 +196,32 @@
         .close:hover {
             color: #F00;
         }
+        /* Shutdown Dialog */
+        .shutdown-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background: #C0C0C0;
+            border: 2px solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            z-index: 1004;
+            display: none;
+        }
+        .shutdown-content {
+            padding: 10px;
+            text-align: center;
+        }
+        .shutdown-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .shutdown-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -211,16 +237,7 @@
             </div>
             <hr>
             
-            <!-- Blog Posts -->
-            <div class="post">
-                <h3 style="margin-top: 0;">My First Post</h3>
-                <p><em>Posted on: August 12, 2025 at 11:00 AM</em></p>
-                <p>hallo world!!! welcome too my blog..</p>
-                <p>i will write about things i like in this blog such as, new and old computers, retro operating systems and more!</p>
-                <p>ヽ(´▽`)/</p>
-                <button class="button read-more" data-post="1">Read More</button>
-            </div>
-            
+            <!-- Blog Posts - About This Blog always first -->
             <div class="post">
                 <h3 style="margin-top: 0;">About This Blog!</h3>
                 <p><em>Posted on: May 10, 2024</em></p>
@@ -233,6 +250,15 @@
                 </ul>
             </div>
 
+            <div class="post">
+                <h3 style="margin-top: 0;">My First Post</h3>
+                <p><em>Posted on: August 12, 2025 at 11:00 AM</em></p>
+                <p>hallo world!!! welcome too my blog..</p>
+                <p>i will write about things i like in this blog such as, new and old computers, retro operating systems and more!</p>
+                <p>ヽ(´▽`)/</p>
+                <button class="button read-more" data-post="1">Read More</button>
+            </div>
+            
             <div class="post">
                 <h3 style="margin-top: 0;">My Retro Computing Collection</h3>
                 <p><em>Posted on: August 13, 2025 at 2:30 PM</em></p>
@@ -254,7 +280,7 @@
         <div class="start-menu-item" id="minesweeperMenuItem" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5xwZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">Minesweeper</div>
         <div class="start-menu-item" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5x0ZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">Limbo's Blog !</div>
         <div class="start-menu-separator"></div>
-        <div class="start-menu-item">Shut Down...</div>
+        <div class="start-menu-item" id="shutdownMenuItem">Shut Down...</div>
     </div>
     
     <!-- Minesweeper Window -->
@@ -269,6 +295,22 @@
             <div class="minesweeper-controls">
                 <button class="button" id="minesweeperNewGame">New Game</button>
                 <button class="button" id="minesweeperClose">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Shutdown Dialog -->
+    <div class="shutdown-dialog" id="shutdownDialog">
+        <div class="title-bar">
+            <span>Shut Down Windows</span>
+            <span>✕</span>
+        </div>
+        <div class="shutdown-content">
+            <div class="shutdown-icon">⚠️</div>
+            <p>Are you sure you want to shut down your computer?</p>
+            <div class="shutdown-options">
+                <button class="button" id="shutdownYes">Yes</button>
+                <button class="button" id="shutdownNo">No</button>
             </div>
         </div>
     </div>
@@ -664,6 +706,27 @@
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
             }
+        });
+
+        // Shutdown functionality
+        const shutdownMenuItem = document.getElementById('shutdownMenuItem');
+        const shutdownDialog = document.getElementById('shutdownDialog');
+        const shutdownYes = document.getElementById('shutdownYes');
+        const shutdownNo = document.getElementById('shutdownNo');
+        
+        shutdownMenuItem.addEventListener('click', function() {
+            startMenu.style.display = 'none';
+            shutdownDialog.style.display = 'block';
+        });
+        
+        shutdownYes.addEventListener('click', function() {
+            shutdownDialog.style.display = 'none';
+            // In a real implementation, this would close the window/tab
+            alert('Windows is shutting down... (This is just a simulation)');
+        });
+        
+        shutdownNo.addEventListener('click', function() {
+            shutdownDialog.style.display = 'none';
         });
     </script>
 </body>
