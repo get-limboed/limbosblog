@@ -82,6 +82,7 @@
             display: flex;
             align-items: center;
             padding: 0 5px;
+            z-index: 1000;
         }
         .start-button {
             background: #C0C0C0;
@@ -89,6 +90,10 @@
             border-color: #FFFFFF #808080 #808080 #FFFFFF;
             padding: 2px 6px;
             font-weight: bold;
+            cursor: pointer;
+        }
+        .start-button:active {
+            border-color: #808080 #FFFFFF #FFFFFF #808080;
         }
         .blink {
             animation: blink 1s step-end infinite;
@@ -101,6 +106,7 @@
             margin: 0 2px;
             border: 1px solid transparent;
             padding: 1px;
+            cursor: pointer;
         }
         .taskbar-icon:hover {
             background: #A0A0A0;
@@ -109,6 +115,40 @@
         .taskbar-icon:active {
             background: #808080;
             border-color: #808080 #808080 #808080 #808080;
+        }
+        /* Start Menu Styles */
+        .start-menu {
+            position: fixed;
+            bottom: 30px;
+            left: 2px;
+            width: 200px;
+            background: #C0C0C0;
+            border: 2px solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            display: none;
+            z-index: 1001;
+        }
+        .start-menu-header {
+            background: linear-gradient(to right, #000080, #1084D0);
+            color: white;
+            padding: 3px 6px;
+            font-weight: bold;
+        }
+        .start-menu-item {
+            padding: 3px 20px 3px 30px;
+            background-position: 5px center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+        .start-menu-item:hover {
+            background-color: #000080;
+            color: white;
+        }
+        .start-menu-separator {
+            height: 2px;
+            background: #FFFFFF;
+            border-top: 1px solid #808080;
+            margin: 3px 0;
         }
     </style>
 </head>
@@ -155,11 +195,20 @@
         </div>
     </div>
     
+    <!-- Start Menu (hidden by default) -->
+    <div class="start-menu" id="startMenu">
+        <div class="start-menu-header">Limbo's Blog</div>
+        <div class="start-menu-item" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5xwZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">JavaScript</div>
+        <div class="start-menu-item" style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5x0ZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==');">View Blog</div>
+        <div class="start-menu-separator"></div>
+        <div class="start-menu-item">Shut Down...</div>
+    </div>
+    
     <!-- Windows 98 Taskbar -->
     <div class="taskbar">
-        <button class="start-button">Start</button>
-        <!-- Added script icon to taskbar -->
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5xwZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==" class="taskbar-icon" alt="Script Icon" title="JavaScript">
+        <button class="start-button" id="startButton">Start</button>
+        <!-- Script icon in taskbar -->
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5x0ZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==" class="taskbar-icon" alt="Script Icon" title="JavaScript">
         <div style="flex-grow: 1;"></div>
         <div style="background: #C0C0C0; border: 2px solid; border-color: #808080 #FFFFFF #FFFFFF #808080; padding: 2px 6px;">
             <script>
@@ -223,6 +272,25 @@
         // Display with leading zeros
         document.getElementById('visitorCount').textContent = 
             String(count).padStart(7, '0');
+            
+        // Start Menu functionality
+        const startButton = document.getElementById('startButton');
+        const startMenu = document.getElementById('startMenu');
+        
+        startButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            startMenu.style.display = startMenu.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        // Close menu when clicking elsewhere
+        document.addEventListener('click', function() {
+            startMenu.style.display = 'none';
+        });
+        
+        // Prevent menu from closing when clicking inside it
+        startMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     </script>
 </body>
 </html>
