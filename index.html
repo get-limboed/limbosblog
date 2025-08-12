@@ -29,6 +29,7 @@
             font-weight: bold;
             display: flex;
             justify-content: space-between;
+            cursor: move;
         }
         .content {
             padding: 10px;
@@ -101,21 +102,6 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
-        .taskbar-icon {
-            height: 24px;
-            margin: 0 2px;
-            border: 1px solid transparent;
-            padding: 1px;
-            cursor: pointer;
-        }
-        .taskbar-icon:hover {
-            background: #A0A0A0;
-            border-color: #808080 #FFFFFF #FFFFFF #808080;
-        }
-        .taskbar-icon:active {
-            background: #808080;
-            border-color: #808080 #808080 #808080 #808080;
-        }
         /* Start Menu Styles */
         .start-menu {
             position: fixed;
@@ -152,10 +138,9 @@
         }
         /* Minesweeper Window */
         .minesweeper-window {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: absolute;
+            top: 100px;
+            left: 100px;
             width: 300px;
             background: #C0C0C0;
             border: 2px solid;
@@ -181,6 +166,36 @@
             font-family: "Courier New", monospace;
             padding: 2px 5px;
         }
+        /* Modal for Read More */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1003;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #C0C0C0;
+            margin: 15% auto;
+            padding: 3px;
+            border: 2px solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            width: 80%;
+            max-width: 600px;
+        }
+        .close {
+            color: #000;
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover {
+            color: #F00;
+        }
     </style>
 </head>
 <body>
@@ -203,7 +218,7 @@
                 <p>hallo world!!! welcome too my blog..</p>
                 <p>i will write about things i like in this blog such as, new and old computers, retro operating systems and more!</p>
                 <p>ヽ(´▽`)/</p>
-                <button class="button">Read More</button>
+                <button class="button read-more" data-post="1">Read More</button>
             </div>
             
             <div class="post">
@@ -216,7 +231,14 @@
                     <li>visitor counter so i can see how many visitors there are :3 ,</li>
                     <li>functional start menu!!!</li>
                 </ul>
-                <button class="button">Leave Comment</button>
+            </div>
+
+            <div class="post">
+                <h3 style="margin-top: 0;">My Retro Computing Collection</h3>
+                <p><em>Posted on: August 13, 2025 at 2:30 PM</em></p>
+                <p>I've been collecting retro computers for years now. Here's a quick overview of my favorites:</p>
+                <p>From old IBM PCs to classic Macintosh systems...</p>
+                <button class="button read-more" data-post="2">Read More</button>
             </div>
             
             <hr>
@@ -237,7 +259,7 @@
     
     <!-- Minesweeper Window -->
     <div class="minesweeper-window" id="minesweeperWindow">
-        <div class="title-bar">
+        <div class="title-bar" id="minesweeperTitleBar">
             <span>Minesweeper</span>
             <span>☐ ✕</span>
         </div>
@@ -251,11 +273,69 @@
         </div>
     </div>
     
+    <!-- Read More Modals -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <div class="title-bar">
+                <span>My First Post - Full Content</span>
+                <span class="close">&times;</span>
+            </div>
+            <div class="content" style="max-height: 400px; overflow-y: auto;">
+                <h3>My First Post - Full Content</h3>
+                <p>Welcome to my blog! I'm so excited to start sharing my thoughts and experiences with you all.</p>
+                <p>As I mentioned in the preview, I'm passionate about retro computing. My journey began when I found an old Windows 98 machine at a garage sale. There was something magical about booting it up and hearing that familiar startup sound.</p>
+                <p>Since then, I've collected various systems including:</p>
+                <ul>
+                    <li>Windows 95/98 machines</li>
+                    <li>Classic Macintosh systems</li>
+                    <li>Commodore 64</li>
+                    <li>Various DOS-based PCs</li>
+                </ul>
+                <p>In future posts, I'll be diving deeper into each of these systems, sharing setup guides, software recommendations, and my personal experiences with them.</p>
+                <p>I'm also planning to document my attempts at getting modern web browsers running on these old systems - which as you can imagine is quite a challenge!</p>
+                <p>Stay tuned for more content, and feel free to explore the Minesweeper game in the Start Menu - a classic Windows 98 game that I've integrated into this blog for your enjoyment!</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <div class="title-bar">
+                <span>My Retro Computing Collection - Full Content</span>
+                <span class="close">&times;</span>
+            </div>
+            <div class="content" style="max-height: 400px; overflow-y: auto;">
+                <h3>My Retro Computing Collection</h3>
+                <p>Here's a more detailed look at my retro computing collection:</p>
+                
+                <h4>1. Windows 98 SE Machine</h4>
+                <p>My pride and joy - a Dell Dimension XPS T500 running Windows 98 SE. Specs:</p>
+                <ul>
+                    <li>500MHz Pentium III</li>
+                    <li>256MB RAM</li>
+                    <li>20GB HDD</li>
+                    <li>NVIDIA RIVA TNT2 (32MB)</li>
+                    <li>Sound Blaster Live! sound card</li>
+                </ul>
+                <p>This machine runs most late-90s games perfectly and is great for nostalgia trips.</p>
+                
+                <h4>2. iMac G3 (Tray Loading)</h4>
+                <p>The iconic Bondi Blue iMac that saved Apple. This one runs Mac OS 9.2.2 and is perfect for classic Mac gaming.</p>
+                
+                <h4>3. IBM PS/2 Model 30</h4>
+                <p>A classic DOS machine with an 8086 processor and MCGA graphics. Great for early DOS games and seeing how computing was in the late 80s.</p>
+                
+                <h4>4. Commodore 64</h4>
+                <p>Complete with original monitor and 1541 floppy drive. Nothing beats the sound of that floppy drive loading!</p>
+                
+                <p>I'm always on the lookout for new additions to my collection. If you have any recommendations for what I should look for next, let me know!</p>
+            </div>
+        </div>
+    </div>
+    
     <!-- Windows 98 Taskbar -->
     <div class="taskbar">
         <button class="start-button" id="startButton">Start</button>
-        <!-- Script icon in taskbar -->
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAABuSURBVDhP7coxDsAgDERR/6O5Qk7QK3CF9lPp0lWqJIQYJQ5g0cXz5CjGmP8g5x0ZY0gpYa21lFJyzgghYK3FGIMxBq01SqmXQEqJ1hqtNVprtNZorVFKobVGa43WGqUUWmuUUm8B5xxjDM45xhiMMRhjMMZgjMEYgzEGYwzGGIwxGGP4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cpxz5Jwj5xw558g5R845cs6Rc46cc+ScI+ccOef4Cj4jYg5qVJhFJQAAAABJRU5ErkJggg==" class="taskbar-icon" alt="Script Icon" title="JavaScript">
         <div style="flex-grow: 1;"></div>
         <div style="background: #C0C0C0; border: 2px solid; border-color: #808080 #FFFFFF #FFFFFF #808080; padding: 2px 6px;">
             <script>
@@ -345,6 +425,29 @@
         const minesweeperClose = document.getElementById('minesweeperClose');
         const minesweeperNewGame = document.getElementById('minesweeperNewGame');
         const minesweeperStatus = document.getElementById('minesweeperStatus');
+        const minesweeperTitleBar = document.getElementById('minesweeperTitleBar');
+        
+        // Make minesweeper window draggable
+        let isDragging = false;
+        let offsetX, offsetY;
+        
+        minesweeperTitleBar.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            offsetX = e.clientX - minesweeperWindow.offsetLeft;
+            offsetY = e.clientY - minesweeperWindow.offsetTop;
+            minesweeperWindow.style.cursor = 'move';
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            minesweeperWindow.style.left = (e.clientX - offsetX) + 'px';
+            minesweeperWindow.style.top = (e.clientY - offsetY) + 'px';
+        });
+        
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            minesweeperWindow.style.cursor = 'default';
+        });
         
         minesweeperMenuItem.addEventListener('click', function() {
             startMenu.style.display = 'none';
@@ -538,6 +641,30 @@
             
             renderBoard();
         }
+
+        // Read More functionality
+        const readMoreButtons = document.querySelectorAll('.read-more');
+        const modals = document.querySelectorAll('.modal');
+        const closeButtons = document.querySelectorAll('.close');
+        
+        readMoreButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const postId = this.getAttribute('data-post');
+                document.getElementById(`modal${postId}`).style.display = 'block';
+            });
+        });
+        
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.modal').style.display = 'none';
+            });
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
     </script>
 </body>
 </html>
